@@ -1,0 +1,94 @@
+{
+	"parser": "@typescript-eslint/parser",
+	"extends": [
+		"airbnb-base",
+		"eslint:recommended",
+		"prettier",
+		"plugin:prettier/recommended"
+	],
+	"plugins": [
+		"@typescript-eslint",
+		"mocha"
+	],
+	"env": {
+		"mocha": true,
+		"node": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module"
+	},
+	"rules": {
+		"prettier/prettier": [
+			"error",
+			{
+				"singleQuote": true
+			}
+		],
+		"no-console": "error",
+		"no-await-in-loop": "off",
+		"camelcase": "off",
+		"no-restricted-syntax": [
+			"error",
+			"WithStatement",
+			"BinaryExpression[operator='in']"
+		],
+		"mocha/no-exclusive-tests": "error",
+		"import/extensions": [
+			"error",
+			"ignorePackages",
+			{
+				"js": "never",
+				"ts": "never"
+			}
+		]
+	},
+	"settings": {
+		"import/resolver": {
+			"typescript": {}
+		}
+	},
+	"overrides": [
+		{
+			"files": [
+				"*.ts",
+				"*.tsx"
+			],
+			"extends": [
+				"plugin:@typescript-eslint/eslint-recommended",
+				"plugin:@typescript-eslint/recommended",
+				"prettier",
+				"plugin:prettier/recommended"
+			],
+			"rules": {
+				"prettier/prettier": [
+					"error",
+					{
+						"singleQuote": false
+					}
+				],
+				"no-shadow": "off",
+				"@typescript-eslint/explicit-module-boundary-types": "off",
+				"no-use-before-define": "warn",
+				"import/prefer-default-export": "off"
+			}
+		},
+		{
+			"files": [
+				"*/*.ts"
+			],
+			"rules": {
+				"no-use-before-define": "off"
+			}
+		},
+		{
+			"files": [
+				"*.test.js",
+				"*.test.ts"
+			],
+			"rules": {
+				"no-unused-expressions": "off"
+			}
+		}
+	]
+}

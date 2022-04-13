@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  typescript:
+    image: node:16
+    init: true
+    working_dir: /node
+    volumes:
+      - .:/node
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_PASSWORD=password
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports: 
+      - 5432:5432
+
+  redis:
+    image: redis:6-alpine

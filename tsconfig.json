@@ -1,0 +1,40 @@
+{
+	"compilerOptions": {
+		"inlineSourceMap": true,
+		"resolveJsonModule": true,
+		"noEmit": true,
+		"target": "es2019",
+		"module": "commonjs",
+		"lib": [
+			"es2019"
+		],
+		"baseUrl": ".",
+		"paths": {
+			"~/*": [
+				"./*"
+			]
+		},
+		"skipLibCheck": true,
+		"noEmitOnError": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": true,
+		"noImplicitThis": true,
+		"alwaysStrict": true,
+		// "noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"esModuleInterop": true
+	},
+	"include": [
+		"**/*.ts",
+		"start.js"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}
