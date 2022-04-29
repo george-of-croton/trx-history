@@ -24,32 +24,37 @@ const years = [_2020, _2021];
 // };
 
 const getAccountInfoAtLedger = async (account: string, block: number) => {
-  const blockData = await post(`${API_BASE_URL}/wallet/getblockbynum`, {
-    num: block,
-  });
+  try {
+    const blockData = await post(`${API_BASE_URL}/wallet/getblockbynum`, {
+      num: block,
+    });
 
-  const accountResult = await post(
-    `http://161.117.83.38:8090/wallet/getaccountbalance`,
-    {
-      account_identifier: {
-        address: account,
-      },
-      block_identifier: {
-        hash: blockData.blockID,
-        number: block,
-      },
-      visible: true,
-    }
-  );
+    const accountResult = await post(
+      `http://161.117.83.38:8090/wallet/getaccountbalance`,
+      {
+        account_identifier: {
+          address: account,
+        },
+        block_identifier: {
+          hash: blockData.blockID,
+          number: block,
+        },
+        visible: true,
+      }
+    );
 
-  const data = {
-    date: new Date(blockData.block_header.raw_data.timestamp),
-    balance: accountResult.balance,
-    account,
-    block,
-  };
+    const data = {
+      date: new Date(blockData.block_header.raw_data.timestamp),
+      balance: accountResult.balance,
+      account,
+      block,
+    };
 
-  return data;
+    return data;
+  } catch (e) {
+    logger.warn("error_fetching_balance");
+    return null;
+  }
 };
 
 export const insertBalanceRow = async (accountInfo: any) => {
@@ -163,17 +168,18 @@ const start = async () => {
 
       for (const account of accounts) {
         const balance = await getAccountInfoAtLedger(account.address, block);
-
-        await knex("balance")
-          .insert({
-            id: uuid(),
-            account_id: account.id,
-            balance: balance.balance,
-            date,
-            created_at: new Date(),
-          })
-          .onConflict(["account_id", "date"])
-          .ignore();
+        if (balance) {
+          await knex("balance")
+            .insert({
+              id: uuid(),
+              account_id: account.id,
+              balance: balance.balance,
+              date,
+              created_at: new Date(),
+            })
+            .onConflict(["account_id", "date"])
+            .ignore();
+        }
       }
     }
   }
